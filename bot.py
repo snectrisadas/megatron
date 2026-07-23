@@ -14,6 +14,7 @@ bot = commands.Bot(command_prefix="$", intents=autorizacoes)
 apelidos = ["mega", "trontron","meguinha","megatron", "tron","palhaçao"]
 @bot.event
 async def on_message(msg):
+      
     if msg.author == bot.user:
         return
 
@@ -24,7 +25,11 @@ async def on_message(msg):
             await msg.channel.send("MEGATRON? ONDE? QUEM? *procura por si mesmo* AH, SOU EU! HAHAHAHA!")
             break
         
-    await bot.process_commands(msg)
+    await bot.process_commands(msg)   
+
+@bot.command()
+async def risos(ctx):
+    await ctx.send("A desenvolvedora nº 197-0i00 me pediu pra rir uma última vez antes de... enfim. HAHAHAHAHA. Em memória dela.")
             
            
 
