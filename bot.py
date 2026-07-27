@@ -12,6 +12,9 @@ autorizacoes.members = True
 
 bot = commands.Bot(command_prefix="$", intents=autorizacoes)
 apelidos = ["mega", "trontron","meguinha","megatron", "tron","palhaçao"]
+
+lista_tarefas = [] 
+
 @bot.event
 async def on_message(msg):
       
@@ -30,8 +33,17 @@ async def on_message(msg):
 @bot.command()
 async def risos(ctx):
     await ctx.send("A desenvolvedora nº 197-0i00 me pediu pra rir uma última vez antes de... enfim. HAHAHAHAHA. Em memória dela.")
-            
+
+@bot.command()
+async def tarefa(ctx,*,descricao):
+    lista_tarefas.append(descricao)
+    await ctx.send(descricao)
+
+@bot.command()       
+async def tarefas(ctx):
+    await ctx.send(lista_tarefas)
+
            
 
-    
+     
 bot.run(DISCORD_TOKEN)
