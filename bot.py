@@ -14,7 +14,7 @@ autorizacoes.members = True
 bot = commands.Bot(command_prefix="$", intents=autorizacoes)
 apelidos = ["mega", "trontron","meguinha","megatron", "tron","palhaçao"] 
 
-lista_tarefas = []                    
+                   
 banco = sqlite3.connect("tarefas.db") 
 cursor = banco.cursor()  # cria o cursor (a "caneta") que executa os comandos SQL dentro do banco
 cursor.execute("CREATE TABLE IF NOT EXISTS tarefas (descricao TEXT)")
@@ -46,7 +46,10 @@ async def tarefa(ctx,*,descricao):    # $tarefa; o *, faz "descricao" pegar a fr
 @bot.command()                        
 async def tarefas(ctx):  
     cursor .execute("SELECT descricao FROM tarefas")
-    resultado = cursor.fetchall()             
-    await ctx.send(resultado)     
+    resultado = cursor.fetchall()   
+    resposta = ""
+    for linha in resultado:     
+            resposta = resposta + "- " + linha[0] + "\n" 
+    await ctx.send(resposta)     
 
 bot.run(DISCORD_TOKEN)                
