@@ -1,6 +1,7 @@
 import discord                        
 import os                             
-import sqlite3                        
+import sqlite3 
+import logging                       
 from dotenv import load_dotenv        
 from discord.ext import commands      
 load_dotenv()                         
@@ -14,7 +15,9 @@ autorizacoes.members = True
 bot = commands.Bot(command_prefix="$", intents=autorizacoes)
 apelidos = ["mega", "trontron","meguinha","megatron", "tron","palhaçao"] 
 
-                   
+logging.basicConfig(filename="diario.log", level=logging.INFO)  
+   
+
 banco = sqlite3.connect("tarefas.db") 
 cursor = banco.cursor()  # cria o cursor (a "caneta") que executa os comandos SQL dentro do banco
 cursor.execute("CREATE TABLE IF NOT EXISTS tarefas (descricao TEXT)")
@@ -34,22 +37,26 @@ async def on_message(msg):
 
     await bot.process_commands(msg)   
 @bot.command()                        
-async def risos(ctx):                 
+async def risos(ctx):   
+    logging.info(f"{ctx.author} usou o comando risos")              
     await ctx.send("A desenvolvedora nº 197-0i00 me pediu pra rir uma última vez antes de... enfim. HAHAHAHAHA. Em memória dela.")  
 
 @bot.command()                        
 async def tarefa(ctx,*,descricao):    # $tarefa; o *, faz "descricao" pegar a frase TODA (com espaços)
     cursor.execute("INSERT INTO tarefas (descricao) VALUES (?)", (descricao,))   # insere a tarefa na tabela
     banco.commit()                    # confirma e grava no disco de verdade
+    logging.info(f"{ctx.author} usou o comando tarefa")
     await ctx.send(descricao)
 
 @bot.command()                        
 async def tarefas(ctx):  
+    
     cursor .execute("SELECT descricao FROM tarefas")
     resultado = cursor.fetchall()   
     resposta = ""
     for linha in resultado:     
             resposta = resposta + "- " + linha[0] + "\n" 
+    logging.info(f"{ctx.author} usou o comando tarefas")
     await ctx.send(resposta)     
 
 bot.run(DISCORD_TOKEN)                
