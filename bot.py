@@ -21,6 +21,7 @@ logging.basicConfig(filename="diario.log", level=logging.INFO)
 banco = sqlite3.connect("tarefas.db")
 cursor = banco.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS tarefas (descricao TEXT)")
+cursor.execute("CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY, xp INTEGER)")
 
 
 @bot.event
