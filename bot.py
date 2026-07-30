@@ -2,6 +2,7 @@ import discord
 import os
 import sqlite3
 import logging
+import aiohttp
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -78,6 +79,15 @@ async def xp(ctx):
     pontos = linha[0]
     nivel = pontos // 100
     await ctx.send(f"{ctx.author.name}, você tem {pontos} XP e está no nível {nivel}!")
+
+
+@bot.command()
+async def gato(ctx):
+    async with aiohttp.ClientSession() as sessao:
+        async with sessao.get("https://api.thecatapi.com/v1/images/search") as resposta:
+            dados = await resposta.json()
+    logging.info(f"{ctx.author} usou o comando gato")
+    await ctx.send(dados[0]["url"])
 
 
 bot.run(DISCORD_TOKEN)
