@@ -36,6 +36,9 @@ async def on_message(msg):
             await msg.channel.send("MEGATRON? ONDE? QUEM? *procura por si mesmo* AH, SOU EU! HAHAHAHA!")
             break
 
+    cursor.execute("INSERT INTO usuarios (id_usuario, xp) VALUES (?, 1) ON CONFLICT(id_usuario) DO UPDATE SET xp = xp + 1", (msg.author.id,))
+    banco.commit()
+
     await bot.process_commands(msg)
 
 
