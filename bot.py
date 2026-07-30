@@ -67,4 +67,17 @@ async def tarefas(ctx):
     await ctx.send(resposta)
 
 
+@bot.command()
+async def xp(ctx):
+    cursor.execute("SELECT xp FROM usuarios WHERE id_usuario = ?", (ctx.author.id,))
+    linha = cursor.fetchone()
+    logging.info(f"{ctx.author} usou o comando xp")
+    if linha is None:
+        await ctx.send("Você ainda não tem XP. Mande mensagens para começar a ganhar!")
+        return
+    pontos = linha[0]
+    nivel = pontos // 100
+    await ctx.send(f"{ctx.author.name}, você tem {pontos} XP e está no nível {nivel}!")
+
+
 bot.run(DISCORD_TOKEN)
